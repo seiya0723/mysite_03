@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Hello World test!!</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <p>Hello World !!</p>
+
+    <p>{{ test }}</p>
+    <p>{{ topics }}</p>
+
+    <p>{{ topics|length }}件のデータが投稿されています。</p>
+    <p>{{ topics|length }}件ヒットしました。</p>
+
+
+    {% for topic in topics %}
+    <div>{{ topic.id }} : {{ topic.dt|date:"Y年m月d日 H時i分s秒" }} : {{ topic.comment|linebreaksbr|urlize }}</div>
+    {% endfor %}
+
+    {# if文はログイン状態を元にログイン・ログアウトボタンを表示させたりする際などに使う。 #}
+    {% if flag %}
+    <div>True</div>
+    {% else %}
+    <div>False</div>
+    {% endif %}
+
+    {# フィルタを使えば、日付のフォーマット指定ができる。#}
+    {# https://docs.djangoproject.com/ja/4.0/ref/templates/builtins/#date #}
+    <div>現在時刻は、{{ dt|date:"Y年m月d日 H時i分s秒" }}</div>
+
+
+    <form action="" method="POST">
+        {# POSTメソッドを送信する時は、必ず下記の {% csrf_token %} もセットで #}
+        {% csrf_token %}
+        {# <input type="text" name="name"> #}
+        {# <input type="text" name="comment"> #}
+
+        {# モデルを継承したフォームクラスを使ってバリデーションする時、モデルのフィールド名と同じname属性を指定する。 #}
+        <textarea name="comment"></textarea>
+        <input type="submit" value="送信！">
+    </form>
+
+</body>
+</html>
